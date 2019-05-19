@@ -2,6 +2,12 @@ package com.adbmkto.exercises.jsondeduper.strategies;
 
 import com.adbmkto.exercises.jsondeduper.models.Lead;
 
+/***
+ * Id based Deduping approach. Uses Id as the key within the dedupTracker.
+ * 
+ * @author lalit
+ *
+ */
 public class IdBasedDedupStrategy extends AbstractDedupStrategy<String> {
 
 	@Override

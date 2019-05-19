@@ -20,27 +20,55 @@ import com.adbmkto.exercises.jsondeduper.strategies.IDeduperStrategy;
 @Component
 public class ServiceFacade implements ApplicationContextAware {
 
+	/** Prefix added to the file with the deduped JSON output **/
 	private static final String dedupedPrefix = "DEDUPED.";
 
+	/**
+	 * Sping applicationContext is made available to the Facade so as to allow
+	 * different dedup strategy implementations to be pulled in on the fly
+	 **/
 	private ApplicationContext applicationContext;
 
 	private static Logger LOG = LoggerFactory.getLogger(ServiceFacade.class);
 
 	@Autowired
+	/**
+	 * Injecting an implementation for the main interface for JSON to Java
+	 * De-serialization and Reverse Serialization functions
+	 **/
 	private ILeadsSerDeserializer leadsSerDeserializer;
 
 	@Autowired
+	/**
+	 * Injecting a command implementation that handles the dedup based on a specific
+	 * strategy
+	 **/
 	private IDeduplicationCmd deDupCmd;
 
+	/**
+	 * The directory where the source file containing JSON to be deduped is placed -
+	 * injected from one of various Spring boot options such as
+	 * application.properties, System properties , Cmd line args etc
+	 **/
 	@Value("${json.source.dir}")
 	private String leadsSourceFileDir;
 
+	/** The JSON file name with source data to be deduped **/
 	@Value("${json.source.filename:leads.json}")
 	private String leadsSourceFileName;
 
+	/** The selected dedup strategies **/
 	@Value("${dedup.strategies:id,email}")
 	private String dedupStrategyNames;
 
+	/**
+	 * The entry point method for dedup implementation. Will iterate over the
+	 * specified dedup strategies and dedup the source colection in multiple rounds
+	 * Will serialize back the deduped JSON ito a file in the same directory as the
+	 * source with the dedupedPrefix added to the file name.
+	 * 
+	 * @throws Exception
+	 */
 	public void dedup() throws Exception {
 
 		LeadsCollection collectionToDedup = leadsSerDeserializer
@@ -52,6 +80,17 @@ public class ServiceFacade implements ApplicationContextAware {
 				leadsSourceFileDir + File.separator + dedupedPrefix + leadsSourceFileName);
 
 	}
+
+	/**
+	 * Given a deserialized Leads collection, and a list of comma separated strategy
+	 * names, will perform deduplication with each by delegation to the
+	 * deDupCommand.
+	 * 
+	 * @param collectionToDedup
+	 * @param dedupStrategyNames
+	 * @return
+	 * @throws Exception
+	 */
 
 	private LeadsCollection deDuplicateLeadsWithSpecifiedStrategies(LeadsCollection collectionToDedup,
 			String dedupStrategyNames) throws Exception {
@@ -77,6 +116,16 @@ public class ServiceFacade implements ApplicationContextAware {
 
 	}
 
+	/**
+	 * Performs Dedup for one single dedupStrategy. The DedupStrategy is a string
+	 * that matches a Bean name that implements IDeduperStratgey as configured in
+	 * the JsonDeDuperStrategyConfig.
+	 * 
+	 * @param leadsInSource
+	 * @param dedupStrategy
+	 * @return
+	 * @throws Exception
+	 */
 	private LeadsCollection dedupUsingSingleStrategy(List<Lead> leadsInSource, String dedupStrategy) throws Exception {
 
 		IDeduperStrategy dedupStrategyProvider = applicationContext.getBean(dedupStrategy, IDeduperStrategy.class);

@@ -3,6 +3,16 @@ package com.adbmkto.exercises.jsondeduper.models;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * A simple POJO based model for the Lead object. Used by frameworks like
+ * Jackson (or GSON or others) as a target for the deserialization from a file
+ * containig JSON Lead representations.
+ * 
+ * No Jackson annotations added - preferring Jackson Defaults.
+ * 
+ * @author lalit
+ *
+ */
 public class Lead {
 
 	private String _id;
