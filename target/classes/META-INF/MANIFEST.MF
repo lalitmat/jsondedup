@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Built-By: lalit
-Build-Jdk: 11.0.2
-Implementation-Title: jsondeduper
-Implementation-Version: 0.0.1-SNAPSHOT
-Implementation-Vendor-Id: com.adbmkto.exercises
-Implementation-URL: http://maven.apache.org
-Created-By: Maven Integration for Eclipse
-

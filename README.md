@@ -1,5 +1,10 @@
 # jsondedup
 
+To Run the code:
+Requirements :
+Java 8 or higher.
+A Maven wrapper is provided with the source.
+
 
 
 Original Requirements:
