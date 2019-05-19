@@ -1,11 +1,59 @@
 # jsondedup
 
-To Run the code:
+To Build and Run the Application:
 Requirements :
 Java 8 or higher.
 A Maven wrapper is provided with the source.
 
+Building:
+Run ./mvnw clean to clean out previous builds if any.
+Run ./mvnw package to build and package an Uber  jar containing the application in the target folder.
 
+Running the application:
+Specify the following three properties in application.properties
+to indicate the directory where the original JSON list and deduped
+Json list should be read/written to, the original JSON file name and a comma seperated list of dedup strategies to use.
+json.source.dir=C:\\adobe\\jsondedup\\src\\test\\samples
+json.source.filename=testsample.json
+dedup.strategies=email,id
+
+A snippet from the JavaDocs for a Service Facade gives more details.
+
+/**
+	 * The directory where the source file containing JSON to be deduped is 		placed -
+	 * injected from one of various Spring boot options such as
+	 * application.properties, System properties , Cmd line args etc
+	 **/
+	@Value("${json.source.dir}")
+	private String leadsSourceFileDir;
+
+	/** The JSON file name with source data to be deduped **/
+	@Value("${json.source.filename:leads.json}")
+	private String leadsSourceFileName;
+
+	/** The selected dedup strategies **/
+	@Value("${dedup.strategies:id,email}")
+	private String dedupStrategyNames;
+
+
+Run the application using:
+./mvnw spring-boot:run
+
+Check in the json.source.dir for a file with name DEDUPED.json.source.filename containing the deduped list.
+
+Some samples used for integration testing are available under src/test/samples.
+
+Unit Tests are available under src/test/java - Email and Id based strategies have been unit tested.
+
+Assumptions in working on the solution:
+* The schema of the Lead object as depicted in the sample leads.json will be followed in the input data in that _id and email and entryDate will always be available in all leads.
+
+If that's not true, after eliciting clarifications to the original requirements, handling could be coded for cases where one or more of the 3 fields of interest in de-duping (_id, email and entryDate) are empty or absent.
+
+* The order of the De-duped list does not have to preserve the order of the leads in the original list.
+
+* In the future, the Leads schema may change and additional fields of interest may be added to Leads. Some of these fields may be usable for de-duplication. The solution should be open for extension to allow additional strategies for de-duplication to be easily added. 
+An example of such a potential future requirement is implemented via the First and last name based deduplication.
 
 Original Requirements:
 Take a variable number of identically structured json records and de-duplicate the set.
