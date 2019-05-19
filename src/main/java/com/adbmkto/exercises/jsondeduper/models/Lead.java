@@ -1,6 +1,7 @@
 package com.adbmkto.exercises.jsondeduper.models;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Lead {
 
@@ -62,6 +63,39 @@ public class Lead {
 
 	public void setEntryDate(Date entryDate) {
 		this.entryDate = entryDate;
+	}
+
+	/**
+	 * NOTE: The equals override here is NOT being used for the DeDup process All
+	 * available instance variables are being checked here to implement a deepEquals
+	 * mainly for List membership checks during unit tests. Implementing the Dedup
+	 * constraints as listed (either _id OR email can be same) leveraging the equals
+	 * and hashcode would be problematic since the implementing an equals with those
+	 * constraints would lead to a non transitive implementation.
+	 * 
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+
+		if (!(o instanceof Lead))
+			return false;
+
+		Lead other = (Lead) o;
+
+		return Objects.equals(this.getFirstName(), other.getFirstName())
+				&& Objects.equals(this.getLastName(), other.getLastName())
+				&& Objects.equals(this.get_id(), other.get_id()) && Objects.equals(this.getEmail(), other.getEmail())
+				&& Objects.equals(this.getAddress(), other.getAddress())
+				&& Objects.equals(this.getEntryDate(), other.getEntryDate());
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(this.firstName, this.lastName, this._id, this.email, this.address, this.entryDate);
+
 	}
 
 }

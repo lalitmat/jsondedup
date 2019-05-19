@@ -1,0 +1,15 @@
+com\adbmkto\exercises\jsondeduper\strategies\FirstAndLastNameDedupKey.class
+com\adbmkto\exercises\jsondeduper\services\IDeduplicationCmd.class
+com\adbmkto\exercises\jsondeduper\strategies\IDeduperStrategy.class
+com\adbmkto\exercises\jsondeduper\models\LeadsCollection.class
+com\adbmkto\exercises\jsondeduper\strategies\IdBasedDedupStrategy.class
+com\adbmkto\exercises\jsondeduper\services\DeDuplicationCommand.class
+com\adbmkto\exercises\jsondeduper\models\Lead.class
+com\adbmkto\exercises\jsondeduper\serdeser\ILeadsSerDeserializer.class
+com\adbmkto\exercises\jsondeduper\services\ServiceFacade.class
+com\adbmkto\exercises\jsondeduper\strategies\FirstAndLastNameBasedDedupStrategy.class
+com\adbmkto\exercises\jsondeduper\JsonDeDuperApp.class
+com\adbmkto\exercises\jsondeduper\serdeser\JacksonLeadsSerDeserializer.class
+com\adbmkto\exercises\jsondeduper\strategies\AbstractDedupStrategy.class
+com\adbmkto\exercises\jsondeduper\strategies\EmailBasedDedupStrategy.class
+com\adbmkto\exercises\jsondeduper\strategies\JsonDeDuperStrategyConfig.class

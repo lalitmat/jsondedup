@@ -1,7 +1,5 @@
 package com.adbmkto.exercises.jsondeduper;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.adbmkto.exercises.jsondeduper.command.ILeadsDeduper;
+import com.adbmkto.exercises.jsondeduper.services.ServiceFacade;
 
 @SpringBootApplication
 public class JsonDeDuperApp implements CommandLineRunner {
@@ -17,7 +15,7 @@ public class JsonDeDuperApp implements CommandLineRunner {
 	private static Logger LOG = LoggerFactory.getLogger(JsonDeDuperApp.class);
 
 	@Autowired
-	ILeadsDeduper leadsDeduper;
+	ServiceFacade leadsDeduperSvc;
 
 	public static void main(String[] args)
 
@@ -31,13 +29,7 @@ public class JsonDeDuperApp implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		// TODO: Perform args validation
-
-		String leadsSourceDirPath = args[0];
-		String leadsSourceFileName = args[1];
-		String[] dedupStrategies = Arrays.copyOfRange(args, 2, args.length);
-
-		leadsDeduper.dedup(leadsSourceDirPath, leadsSourceFileName, dedupStrategies);
+		leadsDeduperSvc.dedup();
 
 	}
 }
